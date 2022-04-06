@@ -507,10 +507,10 @@ void createAVL(Node *&root, long arr[], long s, long e)
 
     if(s < e)
     {
-        createAVL(root, arr, s, median-1);
+        createAVL(root->left, arr, s, median-1);
         if(s+1 < e)
         {
-            createAVL(root, arr, median+1, e);
+            createAVL(root->right, arr, median+1, e);
         }
     }
 }
@@ -582,7 +582,7 @@ void generateRandomArray(long size, long t[])
     srand((unsigned) time(&x));
     for(long i=0; i<size; i++)
     {
-        t[i] = rand()%(10*size);
+        t[i] = rand()%(100*size);
     }
 }
 

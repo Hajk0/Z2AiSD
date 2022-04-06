@@ -15,7 +15,7 @@ struct Node
     Node *parent;
 };
 
-void add(Node *&root, int key);
+void add(Node *&root, long key);
 void findMin(Node *root);
 void findMax(Node *root);
 void inOrder(Node *root);
@@ -25,13 +25,13 @@ void deleteElement(Node *root, int key);
 Node *deleteNode(Node *root, int key);
 void deletePostOrder(Node *root);
 void partPreOrder(Node *root, int key);
-void createAVL(Node *&root, int arr[], int s, int e);
+void createAVL(Node *&root, long arr[], long s, long e);
 
-void heapsort(int T[], int size);
-void maxHeapify(int* T, int i, int heapSize);
-void buildMaxHeap(int* T, int heapSize);
-int cinInt();
-void generateRandomArray(int size, int t[]);
+void heapsort(long T[], long size);
+void maxHeapify(long* T, long i, long heapSize);
+void buildMaxHeap(long* T, long heapSize);
+long cinInt();
+void generateRandomArray(long size, long t[]);
 void deletePostOrder2(Node *root);
 
 //void transplant(Node *root, Node *u, Node *v);
@@ -47,10 +47,10 @@ int main()
 {
     Node *root;
     root = nullptr;
-    int key, del, arrSize, randomBSTv;
+    long key, del, arrSize, randomBSTv;
     long randomBST;
     double sortTime;
-    int *pdel;
+    long *pdel;
 
     ///////////////
     cout << "\t\t\t\tMENU:\n\n";
@@ -183,7 +183,7 @@ int main()
         case 'd'://
             cout << "Ile elementow chcesz usunac? ";
             del = cinInt();
-            pdel = new int [del];
+            pdel = new long [del];
             cout << "Wartosci elementow do usuniecia:" <<endl;
             for(int i=0; i<del; i++)
             {
@@ -234,7 +234,7 @@ int main()
         case 'A'://
             if(root != nullptr)///
             {
-                cout << "\nJuz stworzyles drzewo, aby utworzyc nowe drzewo aktualne zostanie usuniete.\nCzy chcesz kontynuowac? y/n\t(d - dodaj na koniec)\n";
+                cout << "\nJuz stworzyles drzewo, aby utworzyc nowe drzewo aktualne zostanie usuniete.\nCzy chcesz kontynuowac? y/n\n";
                 cin.clear();
                 cin.sync();
                 cin >> o;
@@ -271,8 +271,8 @@ int main()
             }
             cout << "Podaj rozmiar drzewa AVL: ";
             arrSize = cinInt();
-            int *arr;
-            arr = new int [arrSize];
+            long *arr;
+            arr = new long [arrSize];
             if(o == 'w')
             {
                 generateRandomArray(arrSize, arr);
@@ -314,7 +314,7 @@ int main()
 }
 
 
-void add(Node *&root, int key)
+void add(Node *&root, long key)
 {
     Node *n = new Node;
     n->key = key;
@@ -500,9 +500,9 @@ void partPreOrder(Node *root, int key)
     preOrder(ptr);
 }
 
-void createAVL(Node *&root, int arr[], int s, int e)
+void createAVL(Node *&root, long arr[], long s, long e)
 {
-    int median = s+(e+1-s)/2;
+    long median = s+(e+1-s)/2;
     add(root, arr[median]);
 
     if(s < e)
@@ -516,13 +516,13 @@ void createAVL(Node *&root, int arr[], int s, int e)
 }
 
 
-void heapsort(int T[], int size)
+void heapsort(long T[], long size)
 {
-    int heapSize = size-1;
+    long heapSize = size-1;
     buildMaxHeap(T, heapSize);
-    for(int i=heapSize; i>0; i--)
+    for(long i=heapSize; i>0; i--)
     {
-        int tmp = T[0];
+        long tmp = T[0];
         T[0] = T[i];
         T[i] = tmp;
         heapSize--;
@@ -530,11 +530,11 @@ void heapsort(int T[], int size)
     }
 }
 
-void maxHeapify(int* T, int i, int heapSize)
+void maxHeapify(long* T, long i, long heapSize)
 {
-    int l = (i+1)*2-1;
-    int r = (i+1)*2;
-    int least;
+    long l = (i+1)*2-1;
+    long r = (i+1)*2;
+    long least;
     if(l <= heapSize && T[l] > T[i])
     {
         least = l;
@@ -549,24 +549,24 @@ void maxHeapify(int* T, int i, int heapSize)
     }
     if(least != i)
     {
-        int tmp = T[i];
+        long tmp = T[i];
         T[i] = T[least];
         T[least] = tmp;
         maxHeapify(T, least, heapSize);
     }
 }
 
-void buildMaxHeap(int* T, int heapSize)
+void buildMaxHeap(long* T, long heapSize)
 {
-    for(int i=heapSize/2; i>-1; i--)
+    for(long i=heapSize/2; i>-1; i--)
     {
         maxHeapify(T, i, heapSize);
     }
 }
 
-int cinInt()
+long cinInt()
 {
-    int x;
+    long x;
     while(!(cin >> x))
     {
         cin.clear();
@@ -576,11 +576,11 @@ int cinInt()
     return x;
 }
 
-void generateRandomArray(int size, int t[])
+void generateRandomArray(long size, long t[])
 {
     time_t x;
     srand((unsigned) time(&x));
-    for(int i=0; i<size; i++)
+    for(long i=0; i<size; i++)
     {
         t[i] = rand()%(10*size);
     }

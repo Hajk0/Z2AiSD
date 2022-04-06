@@ -22,6 +22,7 @@ void inOrder(Node *root);
 void preOrder(Node *root);
 void transplant(Node *root, Node *u, Node *v);
 void deleteElement(Node *root, int key);
+Node *deleteNode(Node *root, int key);
 void deletePostOrder(Node *root);
 void partPreOrder(Node *root, int key);
 void createAVL(Node *&root, int arr[], int s, int e);
@@ -33,8 +34,8 @@ int cinInt();
 void generateRandomArray(int size, int t[]);
 void deletePostOrder2(Node *root);
 
-void transplant(Node *root, Node *u, Node *v);
-void deleteElement(Node *root, int key);
+//void transplant(Node *root, Node *u, Node *v);
+//void deleteElement(Node *root, int key);
 void leftRotate(Node *&root, Node *x);
 void rightRotate(Node *&root, Node *x);
 int log2 (int x);
@@ -190,7 +191,8 @@ int main()
             }
             for(int i=0; i<del; i++)
             {
-                deleteElement(root, pdel[i]);
+                //deleteElement(root, pdel[i]);
+                root = deleteNode(root, pdel[i]);
             }
             cout << "Usuwanie zakonczone.\n" << endl;
             break;
@@ -318,14 +320,12 @@ void add(Node *&root, int key)
     n->key = key;
     Node *ptr;
     ptr = root;
-    //cout << "X";
     if(ptr != nullptr)
     {
         while(ptr != nullptr)
         {
             if(key < ptr->key)
             {
-                //cout << "D";
                 if(ptr->left == nullptr)
                 {
                     ptr->left = n;
@@ -351,18 +351,13 @@ void add(Node *&root, int key)
                     ptr = ptr->right;
             }
         }
-        //cout << ".";
     }
     else
     {
-        //cout << "Drzewo puste" << endl;
         n->left = root;
         n->right = root;
         n->parent = nullptr;/// /////////////////////////////////////////////?
         root = n;
-
-        //ptr->left = nullptr;
-        //ptr->right = nullptr;
     }
 }
 
@@ -603,7 +598,7 @@ void deletePostOrder2(Node *root)
     }
 }
 
-void deleteElement(Node *root, int key)
+/*void deleteElement(Node *root, int key)
 {
     Node *ptr = root;
 
@@ -660,7 +655,7 @@ void transplant(Node *root, Node *u, Node *v)
     {
         v->parent = u->parent;
     }
-}
+}*/
 
 void leftRotate(Node *&root, Node *x)
 {
@@ -761,4 +756,45 @@ void DSW(Node *&root)
             p = p->parent->right;
         }
     }
+}
+
+Node *deleteNode(Node *root, int key)
+{
+    Node *ptr = root;
+    if(ptr == nullptr)
+    {
+        cout << "Drzewo nie zawiera elementu o kluczu " << key << endl;
+        return ptr;
+    }
+    if(key < ptr->key)
+    {
+        ptr->left = deleteNode(ptr->left, key);
+    }
+    else if(key > ptr->key)
+    {
+        ptr->right = deleteNode(ptr->right, key);
+    }
+    else
+    {
+        if(ptr->left == nullptr && ptr->right == nullptr)
+        {
+            return nullptr;
+        }
+        else if(ptr->left == nullptr)
+        {
+            Node *tmp = ptr->right;
+            free(ptr);
+            return tmp;
+        }
+        else if(ptr->right == nullptr)
+        {
+            Node *tmp = ptr->left;
+            free(ptr);
+            return tmp;
+        }
+        Node *tmp = treeMin(ptr->right);
+        ptr->key = tmp->key;
+        ptr->right = deleteNode(ptr->right, tmp->key);
+    }
+    return ptr;
 }
